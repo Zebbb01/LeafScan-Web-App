@@ -1,0 +1,143 @@
+
+.pf-update {
+  margin: 20px auto; /* Reduced margin for mobile */
+  width: 90%; /* Full width on smaller screens */
+  max-width: 450px; /* Keep max width for larger screens */
+  background-color: #FFFFDD; /* Dark background */
+  padding: 20px; /* Reduced padding for mobile */
+  border-radius: 10px;
+  box-shadow: 1px 1px 8px rgba(0, 0, 0, 0.65);
+  color: #ffffff; /* White text */
+}
+
+.pf-update label {
+  color: #016A70; /* Light grey labels */
+}
+
+.pf-update h1 {
+  text-align: center;
+  font-weight: bold;
+  color: #016A70;
+  text-transform: uppercase;
+}
+
+.form-control {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  margin-bottom: 15px;
+  border: 1px solid #555; /* Dark grey border */
+  border-radius: 5px;
+  background-color: #ffffff; /* Dark input background */
+  color: #016A70; /* White text */
+}
+
+.form-control::placeholder {
+  color: #888; /* Light grey placeholder */
+}
+
+.btn-update .btn-info {
+  background-color: #A2C579; /* Blue button */
+  border: none;
+  padding: 10px 20px;
+  color: #ffffff;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.btn-update .btn-info:hover {
+  background-color: #016A70; /* Darker blue on hover */
+  color: white;
+}
+
+.btn-update {
+  display: flex;
+  justify-content: space-between; /* Adjust this as needed */
+}
+
+.btn-update .btn-secondary {
+  background-color: rgb(233, 113, 58); 
+  border: none;
+  padding: 10px 20px;
+  color: #ffffff;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-left: 10px; /* Add some space between buttons */
+}
+
+.btn-update .btn-secondary:hover {
+  background-color: #f5221a; /* Darker grey on hover */
+  color: white;
+}
+
+
+.mb-2 span {
+  color: red;
+  padding-left: 5px;
+}
+
+/* Modal styles */
+.modal-overlay {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content {
+  background-color: #2c2c2c;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+  max-width: 500px;
+  border-radius: 10px;
+  position: relative;
+  color: #ffffff;
+}
+
+.close-button {
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: #ffffff;
+}
+
+/* Media Queries for responsiveness */
+@media (max-width: 600px) {
+  .pf-update {
+    padding: 15px;
+    margin: 10px;
+  }
+
+  .form-control {
+    padding: 8px;
+  }
+
+  .btn-update .btn-info .btn-secondary {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+  }
+
+  .modal-content {
+    padding: 15px;
+    width: 90%;
+  }
+
+  .close-button {
+    font-size: 18px;
+    top: 5px;
+    right: 10px;
+  }
+}
