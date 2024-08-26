@@ -35,7 +35,13 @@ const ForecastLine = () => {
         const upperCI = data.upper_CI;
   
         const alignedPredictions = [...Array(labels.length).fill(null), ...predictions];
-  
+
+        // Create the line connecting the last actual point and first predicted point
+        const connectingLine = [
+          { x: labels[labels.length - 1], y: actualProductions[actualProductions.length - 1] },
+          { x: data.dates[0], y: predictions[0] }
+        ];
+
         setChartData({
           labels: allLabels,
           datasets: [
@@ -44,7 +50,7 @@ const ForecastLine = () => {
               data: actualProductions.map((y, index) => ({ x: labels[index], y })),
               backgroundColor: 'blue',
               borderColor: 'blue',
-              borderWidth: 1,
+              borderWidth: 3,
               fill: false,
               tension: 0.1,
               spanGaps: true,
@@ -54,7 +60,17 @@ const ForecastLine = () => {
               data: alignedPredictions.map((y, index) => ({ x: allLabels[index], y })),
               backgroundColor: 'orange',
               borderColor: 'orange',
-              borderWidth: 1,
+              borderWidth: 3,
+              fill: false,
+              tension: 0.1,
+              spanGaps: true,
+            },
+            {
+              label: 'Start of Prediction',
+              data: connectingLine,
+              backgroundColor: 'green',
+              borderColor: 'green',
+              borderWidth: 3,
               fill: false,
               tension: 0.1,
               spanGaps: true,
@@ -79,8 +95,6 @@ const ForecastLine = () => {
             }
           ]
         });
-  
-        console.log("MAE:", data.mae);
         setMae(data.mae);  // Set the MAE value
         setLoading(false);
       } catch (error) {
@@ -95,6 +109,7 @@ const ForecastLine = () => {
 
   if (loading) return <div className="loading">Loading...</div>;
   if (error) return <div className="error">Error: {error}</div>;
+
   return (
     <div className="forecast-chart-container">
       <div className="mae-display">
@@ -135,7 +150,6 @@ const ForecastLine = () => {
       />
     </div>
   );  
-  
 };
 
 export default ForecastLine;
