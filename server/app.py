@@ -312,10 +312,10 @@ def upload_image():
 
         # Map the prediction to a class and get prevention/control info
         disease_mapping = {
-            "Cacao Early Blight": "Use resistant varieties, apply fungicides.",
-            "Cacao Healthy": "Maintain good hygiene, monitor for pests.",
-            "Cacao Late Blight": "Apply copper-based fungicides, ensure good drainage.",
-            "Cacao Leaf Spot": "Avoid overcrowding, apply protective sprays.",
+            "Cacao Early Blight": "Use resistant cacao varieties and regularly apply appropriate fungicides.",
+            "Cacao Healthy": "Maintain good farm hygiene practices and regularly monitor for pests and diseases.",
+            "Cacao Late Blight": "Apply copper-based fungicides and ensure proper soil drainage to reduce disease risk.",
+            "Cacao Leaf Spot": "Avoid overcrowding of plants and apply protective fungicidal sprays as needed.",
         }
 
         prevention_info = disease_mapping.get(predicted_class, "No information available.")
