@@ -34,6 +34,7 @@ import axios from "axios";
 import { SERVER_URI } from "@/utils/uri";
 import { Toast } from "react-native-toast-notifications";
 import { useUser } from "../../../context/UserProvider";
+import styles from "@/styles/auth/signup"
 
 export default function SignUpScreen() {
   const [isPasswordVisible, setPasswordVisible] = useState(false);
@@ -48,6 +49,7 @@ export default function SignUpScreen() {
     email: "",
   });
   const { setUser } = useUser();
+  const [passwordStrength, setPasswordStrength] = useState("");
 
   let [fontsLoaded, fontError] = useFonts({
     Raleway_600SemiBold,
@@ -72,13 +74,16 @@ export default function SignUpScreen() {
         ...prevError,
         password: "Write at least 8 characters",
       }));
+      setPasswordStrength("Weak");
     } else if (!passwordOneNumber.test(password)) {
       setError((prevError) => ({
         ...prevError,
         password: "Write at least one number",
       }));
+      setPasswordStrength("Medium");
     } else {
       setError((prevError) => ({ ...prevError, password: "" }));
+      setPasswordStrength("Strong");
     }
     setUserInfo((prevInfo) => ({ ...prevInfo, password: value }));
   };
@@ -122,7 +127,7 @@ export default function SignUpScreen() {
         password: userInfo.password,
       })
       .then((res) => {
-        const userData = res.data; // Adjust according to the response format
+        const userData = res.data;
         setUser(userData);
         Toast.show(res.data.message || "Register successfully. Please verify your account.", {
           type: "success",
@@ -131,7 +136,7 @@ export default function SignUpScreen() {
         setButtonSpinner(false);
         router.push({
           pathname: "/(routes)/verifyAccount",
-          params: { userId: res.data.id, email: userInfo.email }, // Pass email as well
+          params: { userId: res.data.id, email: userInfo.email },
         });
       })
       .catch((error) => {
@@ -140,20 +145,17 @@ export default function SignUpScreen() {
           if (error.response?.data?.error === "Email already exists") {
             Toast.show("Email already exists", { type: "danger" });
           } else {
-            // Other errors are logged but not shown as toast notifications
             console.error("Error during sign-up:", error);
           }
         } else {
-          // Handle unexpected errors
           console.error("Unexpected error during sign-up:", error);
         }
       });
   };
-  
 
   return (
     <LinearGradient
-      colors={["beige", "rgba(0,0,0,0.22)"]}
+      colors={["#ffffff", "#F8EDE3"]}
       style={{ flex: 1, paddingTop: 20 }}
     >
       <ScrollView>
@@ -237,8 +239,34 @@ export default function SignUpScreen() {
                 color={"#A1A1A1"}
               />
             </View>
+            {userInfo.password && (
+              <View style={styles.passwordStrengthContainer}>
+                <View
+                  style={[
+                    styles.passwordStrengthBar,
+                    {
+                      backgroundColor:
+                        passwordStrength === "Strong"
+                          ? "green"
+                          : passwordStrength === "Medium"
+                          ? "yellow"
+                          : "red",
+                      width:
+                        passwordStrength === "Strong"
+                          ? "100%"
+                          : passwordStrength === "Medium"
+                          ? "66%"
+                          : "33%",
+                    },
+                  ]}
+                />
+                <Text style={styles.passwordStrengthText}>
+                  {passwordStrength}
+                </Text>
+              </View>
+            )}
             {error.password && (
-              <View style={[commonStyles.errorContainer, { top: 145 }]}>
+              <View style={[commonStyles.errorContainer, { top: 140 }]}>
                 <Entypo name="cross" size={18} color={"red"} />
                 <Text style={{ color: "red", fontSize: 11, marginTop: -1 }}>
                   {error.password}
@@ -294,54 +322,3 @@ export default function SignUpScreen() {
   );
 }
 
-const styles = StyleSheet.create({
-  signInImage: {
-    width: "30%",
-    height: 130,
-    alignSelf: "center",
-    marginTop: 100,
-  },
-  welcomeText: {
-    textAlign: "center",
-    fontSize: 24,
-  },
-  learningText: {
-    textAlign: "center",
-    color: "#575757",
-    fontSize: 15,
-    marginTop: 5,
-  },
-  inputContainer: {
-    marginHorizontal: 16,
-    marginTop: 30,
-    rowGap: 30,
-  },
-  input: {
-    height: 55,
-    marginHorizontal: 16,
-    borderRadius: 8,
-    paddingLeft: 35,
-    fontSize: 16,
-    backgroundColor: "white",
-    color: "#A1A1A1",
-    marginBottom: 25,
-  },
-  visibleIcon: {
-    position: "absolute",
-    right: 30,
-    top: 15,
-  },
-  icon2: {
-    position: "absolute",
-    left: 23,
-    top: 17.8,
-    marginTop: -2,
-  },
-  signupRedirect: {
-    flexDirection: "row",
-    marginHorizontal: 16,
-    justifyContent: "center",
-    marginBottom: 20,
-    marginTop: 20,
-  },
-});

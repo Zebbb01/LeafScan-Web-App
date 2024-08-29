@@ -32,6 +32,61 @@
     box-sizing: border-box; /* Include padding and border in the element's total width and height */
 }
 
+.passwordStrengthWrapper {
+    margin: 10px 0;
+    width: 100%; /* Ensure full width */
+}
+
+.passwordStrengthBar {
+    height: 4px;
+    border-radius: 5px;
+    background-color: #ddd;
+    position: relative;
+}
+
+.passwordStrengthBar span {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    border-radius: 5px;
+    display: block;
+    width: 0;
+    transition: width 0.3s;
+}
+
+.strength-0 span {
+    width: 20%;
+    background-color: #e74c3c; /* Red */
+}
+
+.strength-1 span {
+    width: 40%;
+    background-color: #f39c12; /* Orange */
+}
+
+.strength-2 span {
+    width: 60%;
+    background-color: #f1c40f; /* Yellow for Medium */
+}
+
+.strength-3 span {
+    width: 80%;
+    background-color: #2ecc71; /* Green */
+}
+
+.strength-4 span {
+    width: 100%;
+    background-color: #27ae60; /* Dark Green */
+}
+
+.passwordStrengthText {
+    text-align: center;
+    font-size: 0.9em;
+    color: #016A70;
+    margin-top: 5px;
+}
+
 .inputGroup button {
     margin-top: 20px;
     padding: 10px;
@@ -52,6 +107,7 @@
 .inputGroup span {
     color: red;
     padding-left: 5px;
+    font-size: 0.9em;
 }
 
 .logins {

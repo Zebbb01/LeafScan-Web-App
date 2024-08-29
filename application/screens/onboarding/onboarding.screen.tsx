@@ -19,7 +19,7 @@ export default function OnBoardingScreen() {
 
   return (
     <LinearGradient
-      colors={["beige", "rgba(0,0,0,0.2)"]}
+      colors={["#ffffff", "#F8EDE3"]}
       style={{
         flex: 1,
         alignItems: "center",

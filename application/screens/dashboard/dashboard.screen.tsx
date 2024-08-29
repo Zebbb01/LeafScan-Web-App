@@ -4,10 +4,10 @@ import * as ImagePicker from "expo-image-picker";
 import { useFonts, Raleway_700Bold } from "@expo-google-fonts/raleway";
 import { Nunito_400Regular, Nunito_700Bold } from "@expo-google-fonts/nunito";
 import { LinearGradient } from "expo-linear-gradient";
-import { dashboardStyle } from "@/styles/dashboard/dashboard";
-import { router } from "expo-router";
-import { useUser } from "../../context/UserProvider";
 import { Ionicons } from "@expo/vector-icons";
+import { useUser } from "../../context/UserProvider";
+import { router } from "expo-router";
+import { dashboardStyle } from "@/styles/dashboard/dashboard"; // Import the styles
 
 export default function DashboardScreen() {
   const { user } = useUser();
@@ -97,14 +97,8 @@ export default function DashboardScreen() {
           style={dashboardStyle.buttonWrapper}
           onPress={pickImage}
         >
-          <Text
-            style={[
-              dashboardStyle.buttonText,
-              { fontFamily: "Nunito_700Bold" },
-            ]}
-          >
-            Pick Image from Gallery
-          </Text>
+          <Ionicons name="image-outline" size={24} color="white" />
+          <Text style={dashboardStyle.buttonText}>Pick Image from Gallery</Text>
         </TouchableOpacity>
       );
     }
@@ -114,14 +108,8 @@ export default function DashboardScreen() {
           style={dashboardStyle.buttonWrapper}
           onPress={takePicture}
         >
-          <Text
-            style={[
-              dashboardStyle.buttonText,
-              { fontFamily: "Nunito_700Bold" },
-            ]}
-          >
-            Take a Picture
-          </Text>
+          <Ionicons name="camera-outline" size={24} color="white" />
+          <Text style={dashboardStyle.buttonText}>Take a Picture</Text>
         </TouchableOpacity>
       );
     }
@@ -129,29 +117,16 @@ export default function DashboardScreen() {
 
   return (
     <LinearGradient
-      colors={["beige", "#F8EDE3"]}
+      colors={["#ffffff", "#F8EDE3"]}
       style={dashboardStyle.linearGradient}
     >
       <View style={dashboardStyle.headerContainer}>
-        <Text
-          style={[
-            dashboardStyle.welcomeText,
-            { fontFamily: "Raleway_700Bold" },
-          ]}
-        >
-          Welcome, {user?.name}
-        </Text>
+        <Text style={dashboardStyle.welcomeText}>Welcome, {user?.name}</Text>
         <View style={dashboardStyle.iconContainer}>
-          <TouchableOpacity
-            onPress={handleEditProfile}
-            style={dashboardStyle.iconButton}
-          >
+          <TouchableOpacity onPress={handleEditProfile} style={dashboardStyle.iconButton}>
             <Ionicons name="pencil-sharp" size={30} color="black" />
           </TouchableOpacity>
-          <TouchableOpacity
-            onPress={handleLogout}
-            style={[dashboardStyle.iconButton, dashboardStyle.logoutIcon]}
-          >
+          <TouchableOpacity onPress={handleLogout} style={[dashboardStyle.iconButton, dashboardStyle.logoutIcon]}>
             <Ionicons name="exit-outline" size={30} color="black" />
           </TouchableOpacity>
         </View>
@@ -177,22 +152,8 @@ export default function DashboardScreen() {
           />
         </View>
         <View style={dashboardStyle.dscpWrapper}>
-          <Text
-            style={[
-              dashboardStyle.dscpText,
-              { fontFamily: "Nunito_400Regular" },
-            ]}
-          >
-            Start Detecting Disease With
-          </Text>
-          <Text
-            style={[
-              dashboardStyle.dscpText,
-              { fontFamily: "Nunito_400Regular" },
-            ]}
-          >
-            LeafScan
-          </Text>
+          <Text style={dashboardStyle.dscpText}>Start Detecting Disease With</Text>
+          <Text style={dashboardStyle.dscpText}>LeafScan</Text>
         </View>
   
         {/* Button */}
@@ -209,14 +170,7 @@ export default function DashboardScreen() {
             ]}
             onPress={() => setActiveTab("gallery")}
           >
-            <Text
-              style={[
-                dashboardStyle.tabButtonText,
-                { fontFamily: "Nunito_700Bold" },
-              ]}
-            >
-              Gallery
-            </Text>
+            <Text style={dashboardStyle.tabButtonText}>Gallery</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={[
@@ -225,17 +179,10 @@ export default function DashboardScreen() {
             ]}
             onPress={() => setActiveTab("camera")}
           >
-            <Text
-              style={[
-                dashboardStyle.tabButtonText,
-                { fontFamily: "Nunito_700Bold" },
-              ]}
-            >
-              Camera
-            </Text>
+            <Text style={dashboardStyle.tabButtonText}>Camera</Text>
           </TouchableOpacity>
         </View>
       </View>
     </LinearGradient>
   );
-}  
+}

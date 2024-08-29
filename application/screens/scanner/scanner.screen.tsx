@@ -1,12 +1,24 @@
-import { View, Text, Image, TouchableOpacity, Alert, StyleSheet, ActivityIndicator } from 'react-native';
-import React, { useState } from 'react';
-import { useRoute } from '@react-navigation/native';
-import axios from 'axios';
-import * as FileSystem from 'expo-file-system';
-import { useUser } from '../../context/UserProvider';
-import { SERVER_URI } from '@/utils/uri';
-import { useRouter } from 'expo-router';
-import { LinearGradient } from 'expo-linear-gradient';
+// ScannerScreen.js
+import {
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+  Alert,
+  StyleSheet,
+  ActivityIndicator,
+  Modal,
+} from "react-native";
+import React, { useState } from "react";
+import { useRoute } from "@react-navigation/native";
+import axios from "axios";
+import * as FileSystem from "expo-file-system";
+import { useUser } from "../../context/UserProvider";
+import { SERVER_URI } from "@/utils/uri";
+import { useRouter } from "expo-router";
+import { LinearGradient } from "expo-linear-gradient";
+import { Ionicons } from "@expo/vector-icons";
+import styles from "@/styles/scanner/scanner"; // Import styles from the new file
 
 export default function ScannerScreen() {
   const route = useRoute();
@@ -14,10 +26,17 @@ export default function ScannerScreen() {
   const { imageUri } = route.params as { imageUri: string };
   const { user } = useUser();
   const [loading, setLoading] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [scanResult, setScanResult] = useState<{
+    disease: string;
+    confidence: number;
+    prevention: string;
+    metrics: any;
+  } | null>(null);
 
   const scanImage = async () => {
     if (!user) {
-      Alert.alert('Error', 'User not found.');
+      Alert.alert("Error", "User not found.");
       return;
     }
 
@@ -28,45 +47,54 @@ export default function ScannerScreen() {
       await FileSystem.copyAsync({ from: imageUri, to: newPath });
 
       const formData = new FormData();
-      formData.append('image', {
+      formData.append("image", {
         uri: newPath,
         name: fileName,
-        type: 'image/jpeg',
+        type: "image/jpeg",
       } as any);
 
-      const response = await axios.post(`${SERVER_URI}/upload_image`, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
+      const response = await axios.post(
+        `${SERVER_URI}/upload_image`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
 
       if (response.status === 201) {
         const { disease, confidence, prevention, metrics } = response.data;
-        Alert.alert('Success', 'Image scanned successfully!');
-        router.push({
-          pathname: '/(routes)/result',
-          params: { predictedImage: newPath, disease, confidence, prevention, metrics }
-        });
+        setScanResult({ disease, confidence, prevention, metrics });
+        setModalVisible(true);
       }
     } catch (error) {
-      console.error('Error scanning image:', error);
-      Alert.alert('Error', 'Failed to scan image.');
+      console.error("Error scanning image:", error);
+      Alert.alert("Error", "Failed to scan image.");
     } finally {
       setLoading(false);
     }
   };
 
   const handleCancel = () => {
-    router.push('/(routes)/dashboard');
+    router.push("/(routes)/dashboard");
+  };
+
+  const handleViewResult = () => {
+    if (scanResult) {
+      setModalVisible(true);
+    } else {
+      Alert.alert("No Result", "Please scan an image first.");
+    }
   };
 
   return (
     <LinearGradient
-      colors={['beige', 'rgba(0,0,0,0.22)']}
+      colors={["#ffffff", "#F8EDE3"]}
       style={{ flex: 1, paddingTop: 20 }}
     >
       <View style={styles.container}>
-        <Text style={styles.title}>Is this the image you want to scan?</Text>
+        <Text style={styles.title}>You want to change?</Text>
         {imageUri && (
           <Image
             source={{ uri: imageUri }}
@@ -75,69 +103,68 @@ export default function ScannerScreen() {
           />
         )}
         <View style={styles.buttonContainer}>
-          <TouchableOpacity onPress={scanImage} style={styles.button} disabled={loading}>
+          <TouchableOpacity
+            onPress={scanImage}
+            style={styles.button}
+            disabled={loading}
+          >
             {loading ? (
               <ActivityIndicator size="small" color={"white"} />
             ) : (
-              <Text style={styles.buttonText}>Scan</Text>
+              <>
+                <Ionicons name="scan" size={20} color="white" />
+                <Text style={styles.buttonText}>Scan</Text>
+              </>
             )}
           </TouchableOpacity>
           <TouchableOpacity onPress={handleCancel} style={styles.cancelButton}>
+            <Ionicons name="close-circle" size={20} color="white" />
             <Text style={styles.cancelButtonText}>Cancel</Text>
           </TouchableOpacity>
         </View>
+
+        {scanResult && (
+          <TouchableOpacity
+            onPress={handleViewResult}
+            style={styles.viewButton}
+          >
+            <Ionicons name="eye" size={20} color="white" />
+            <Text style={styles.viewButtonText}>View Result</Text>
+          </TouchableOpacity>
+        )}
       </View>
+
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => setModalVisible(false)}
+      >
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+            <Text style={styles.modalTitle}>Scan Result</Text>
+            {scanResult && (
+              <>
+                <Text style={styles.modalLabel}>
+                  Disease: {scanResult.disease}
+                </Text>
+                <Text style={styles.modalLabel}>
+                  Confidence: {(scanResult.confidence * 100).toFixed(2)}%
+                </Text>
+                <Text style={styles.modalLabel}>
+                  Prevention: {scanResult.prevention}
+                </Text>
+              </>
+            )}
+            <TouchableOpacity
+              style={styles.closeButton}
+              onPress={() => setModalVisible(false)}
+            >
+              <Text style={styles.closeButtonText}>Close</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
     </LinearGradient>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: 'transparent',
-  },
-  title: {
-    fontSize: 24,
-    fontFamily: 'Raleway_700Bold',
-    color: '#2F3645',
-    marginBottom: 20,
-  },
-  image: {
-    width: 300,
-    height: 300,
-    marginBottom: 20,
-    borderWidth: 2,
-    borderColor: '#000',
-  },
-  buttonContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    width: '80%',
-  },
-  button: {
-    backgroundColor: 'yellowgreen',
-    padding: 15,
-    borderRadius: 8,
-    alignItems: 'center',
-    width: '48%',
-  },
-  buttonText: {
-    color: '#fff',
-    fontSize: 16,
-    fontFamily: 'Raleway_700Bold',
-  },
-  cancelButton: {
-    backgroundColor: '#f44336',
-    padding: 15,
-    borderRadius: 8,
-    alignItems: 'center',
-    width: '48%',
-  },
-  cancelButtonText: {
-    color: '#fff',
-    fontSize: 16,
-    fontFamily: 'Raleway_700Bold',
-  },
-});

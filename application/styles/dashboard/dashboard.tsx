@@ -5,126 +5,126 @@ import {
 } from "react-native-responsive-screen";
 
 export const dashboardStyle = StyleSheet.create({
-    linearGradient: {
-      flex: 1,
-      alignItems: "center",
-      justifyContent: "flex-start",
-    },
-    headerContainer: {
-      flexDirection: "row",
-      justifyContent: "space-between",
-      alignItems: "center",
-      width: "100%",
-      paddingHorizontal: 20,
-      paddingVertical: 10,
-      paddingTop: 30,
-      backgroundColor: "#FFFFDD",
-      borderBottomWidth: 1,
-      borderBottomColor: "#ddd",
-      zIndex: 10,
-    },
-    welcomeText: {
-      fontSize: 24,
-      color: "#2F3645",
-      fontWeight: "bold",
-    },
-    iconContainer: {
-      flexDirection: "row",
-      alignItems: "center",
-    },
-    iconButton: {
-      padding: 10,
-    },
-    logoutIcon: {
-      marginLeft: 20,
-    },
-    firstContainer: {
-      alignItems: "center",
-      marginTop: 200,
-      paddingHorizontal: 20,
-      width: "100%",
-    },
-    logoContainer: {
-      alignItems: "center",
-      justifyContent: "center",
-      position: "relative",
-    },
-    logo: {
-      width: wp("80%"),
-      height: hp("20%"),
-      resizeMode: "contain",
-      position: "absolute",
-      top: 0,
-      zIndex: 1,
-    },
-    titleTextShape1: {
-      width: wp("30%"),
-      height: hp("15%"),
-      resizeMode: "contain",
-      position: "absolute",
-      left: -100,
-      top: 10,
-      zIndex: 0,
-    },
-    titleTextShape2: {
-      width: wp("20%"),
-      height: hp("20%"),
-      resizeMode: "contain",
-      position: "absolute",
-      right: -100,
-      top: 30,
-      zIndex: 0,
-    },
-    titleShape3: {
-      width: wp("40%"),
-      height: hp("19%"),
-      resizeMode: "contain",
-      zIndex: 0,
-    },
-    dscpWrapper: {
-      marginTop: 20,
-      alignItems: "center",
-    },
-    dscpText: {
-      fontSize: 18,
-      color: "#2F3645",
-    },
-    buttonWrapperContainer: {
-      marginTop: 100, // Adjusted margin
-      width: "100%",
-      alignItems: "center",
-    },
-    tabContainer: {
-      flexDirection: "row",
-      marginTop: 100,
-      width: "100%",
-      justifyContent: "center",
-    },
-    tabButton: {
-      flex: 1,
-      paddingVertical: 10,
-      alignItems: "center",
-      borderBottomWidth: 2,
-      borderBottomColor: "transparent",
-    },
-    tabButtonText: {
-      fontSize: 16,
-      color: "#2F3645",
-    },
-    activeTab: {
-      borderBottomColor: "#2F3645",
-    },
-    buttonWrapper: {
-      backgroundColor: "yellowgreen",
-      padding: 15,
-      borderRadius: 5,
-      marginVertical: 10,
-      elevation: 3,
-      alignItems: "center",
-    },
-    buttonText: {
-      fontSize: 16,
-      color: "aliceblue",
-    },
-  });
-  
+  linearGradient: {
+    flex: 1,
+    paddingHorizontal: wp("5%"),
+  },
+  headerContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginTop: hp("5%"),
+    marginBottom: hp("2%"),
+    width: "100%",
+    paddingHorizontal: wp("5%"),
+  },
+  welcomeText: {
+    fontSize: hp("3%"),
+    fontFamily: "Raleway_700Bold",
+    color: "#333",
+  },
+  iconContainer: {
+    flexDirection: "row",
+  },
+  iconButton: {
+    padding: wp("2%"),
+  },
+  logoutIcon: {
+    marginLeft: wp("3%"),
+  },
+  firstContainer: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    paddingHorizontal: wp("5%"),
+  },
+  logoContainer: {
+    alignItems: "center",
+    marginBottom: hp("2.5%"),
+  },
+  logo: {
+    width: wp("65%"),
+    height: hp("25%"),
+    marginBottom: hp("1%"),
+    resizeMode: "contain",
+  },
+  titleTextShape1: {
+    position: "absolute",
+    top: hp("5%"),
+    left: wp("0%"),
+    width: wp("30%"),
+    height: hp("15%"),
+    resizeMode: "contain",
+    zIndex: 0,
+  },
+  titleTextShape2: {
+    position: "absolute",
+    top: hp("2%"),
+    right: wp("0%"),
+    width: wp("20%"),
+    height: hp("20%"),
+    resizeMode: "contain",
+    zIndex: 0,
+  },
+  titleShape3: {
+    position: "absolute",
+    bottom: hp("1%"),
+    right: wp("19%"),
+    width: wp("20%"),
+    height: hp("25%"),
+    resizeMode: "contain",
+    zIndex: 0,
+  },
+  dscpWrapper: {
+    alignItems: "center",
+    marginBottom: hp("2.5%"),
+  },
+  dscpText: {
+    fontSize: hp("2.3%"),
+    fontFamily: "Nunito_400Regular",
+    color: "#666",
+  },
+  buttonWrapperContainer: {
+    width: "100%",
+    alignItems: "center",
+    marginBottom: hp("2.5%"),
+  },
+  buttonWrapper: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "yellowgreen",
+    paddingVertical: hp("2%"),
+    paddingHorizontal: wp("8%"),
+    borderRadius: wp("6%"),
+    width: "80%",
+    marginVertical: hp("1.25%"),
+  },
+  buttonText: {
+    fontSize: hp("2%"),
+    color: "#fff",
+    fontFamily: "Nunito_700Bold",
+    marginLeft: wp("2%"),
+  },
+  tabContainer: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: hp("2.5%"),
+  },
+  tabButton: {
+    backgroundColor: "#F8EDE3",
+    paddingVertical: hp("1.25%"),
+    paddingHorizontal: wp("8%"),
+    borderRadius: wp("4%"),
+    marginHorizontal: wp("2.5%"),
+  },
+  activeTab: {
+    backgroundColor: "#e0e0e0",
+  },
+  tabButtonText: {
+    fontSize: hp("2%"),
+    fontFamily: "Nunito_700Bold",
+    color: "#333",
+  },
+});

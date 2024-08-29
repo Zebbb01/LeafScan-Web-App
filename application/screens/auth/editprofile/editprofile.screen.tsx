@@ -13,8 +13,15 @@ import { SERVER_URI } from "@/utils/uri";
 import { useToast } from "react-native-toast-notifications";
 import { useUser } from "../../../context/UserProvider";
 import { router } from "expo-router";
-import { useFonts, Raleway_600SemiBold, Raleway_700Bold } from "@expo-google-fonts/raleway";
-import { Nunito_400Regular, Nunito_600SemiBold } from "@expo-google-fonts/nunito";
+import {
+  useFonts,
+  Raleway_600SemiBold,
+  Raleway_700Bold,
+} from "@expo-google-fonts/raleway";
+import {
+  Nunito_400Regular,
+  Nunito_600SemiBold,
+} from "@expo-google-fonts/nunito";
 import { Ionicons } from "@expo/vector-icons";
 
 const EditProfileScreen = () => {
@@ -88,10 +95,10 @@ const EditProfileScreen = () => {
 
     try {
       if (userInfo.currentPassword) {
-        const passwordCheckResponse = await axios.post(`${SERVER_URI}/check-password`, {
-          id: user.id,
-          password: userInfo.currentPassword,
-        });
+        const passwordCheckResponse = await axios.post(
+          `${SERVER_URI}/check-password`,
+          { id: user.id, password: userInfo.currentPassword }
+        );
 
         if (!passwordCheckResponse.data.valid) {
           setError({ currentPassword: "Current password is incorrect" });
@@ -129,7 +136,9 @@ const EditProfileScreen = () => {
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.formContainer}>
-        <Text style={styles.header}>Edit Profile</Text>
+        <Text style={[styles.header, { fontFamily: "Raleway_700Bold" }]}>
+          Edit Profile
+        </Text>
         <TextInput
           style={styles.input}
           value={userInfo.name}
@@ -168,7 +177,9 @@ const EditProfileScreen = () => {
             />
           </TouchableOpacity>
         </View>
-        {error.currentPassword && <Text style={styles.errorText}>{error.currentPassword}</Text>}
+        {error.currentPassword && (
+          <Text style={styles.errorText}>{error.currentPassword}</Text>
+        )}
         <View style={styles.passwordContainer}>
           <TextInput
             style={styles.input}
@@ -191,12 +202,15 @@ const EditProfileScreen = () => {
             />
           </TouchableOpacity>
         </View>
-        {error.newPassword && <Text style={styles.errorText}>{error.newPassword}</Text>}
-        <TouchableOpacity
-          style={styles.button}
-          onPress={handleUpdateProfile}
-        >
-          {buttonSpinner ? <ActivityIndicator size="small" color="#fff" /> : <Text style={styles.buttonText}>Update</Text>}
+        {error.newPassword && (
+          <Text style={styles.errorText}>{error.newPassword}</Text>
+        )}
+        <TouchableOpacity style={styles.button} onPress={handleUpdateProfile}>
+          {buttonSpinner ? (
+            <ActivityIndicator size="small" color="#fff" />
+          ) : (
+            <Text style={styles.buttonText}>Update</Text>
+          )}
         </TouchableOpacity>
         <TouchableOpacity
           style={[styles.button, styles.cancelButton]}
@@ -212,54 +226,60 @@ const EditProfileScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
     padding: 20,
-    backgroundColor: 'beige',
+    backgroundColor: "#F5F5F5", // Light background color
+    justifyContent: "center",
   },
   formContainer: {
-    backgroundColor: '#FFFFDD',
+    backgroundColor: "#FFFFFF",
     borderRadius: 10,
     padding: 20,
-    elevation: 5,
+    elevation: 3,
+    shadowColor: "#000", // Adding shadow for depth
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 5,
   },
   header: {
-    fontSize: 24,
-    fontWeight: 'bold',
+    fontSize: 28,
     marginBottom: 20,
+    color: "#333", // Darker color for better readability
   },
   input: {
     borderWidth: 1,
-    borderColor: '#ddd',
-    borderRadius: 5,
-    padding: 10,
+    borderColor: "#DDDDDD",
+    borderRadius: 8,
+    padding: 12,
     marginBottom: 15,
+    fontSize: 16,
   },
   passwordContainer: {
-    position: 'relative',
+    position: "relative",
   },
   visibilityIcon: {
     position: "absolute",
     right: 10,
-    top: 10,
+    top: 12,
   },
   button: {
-    backgroundColor: '#016A70',
+    backgroundColor: "yellowgreen",
     padding: 15,
-    borderRadius: 5,
-    alignItems: 'center',
+    borderRadius: 8,
+    alignItems: "center",
     marginBottom: 10,
   },
   cancelButton: {
-    backgroundColor: '#f44336',
+    backgroundColor: "#DC3545",
   },
   buttonText: {
-    color: '#fff',
+    color: "#FFFFFF",
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: "600",
   },
   errorText: {
-    color: 'red',
+    color: "#FF0000",
     marginBottom: 10,
+    fontSize: 14,
   },
 });
 
