@@ -23,11 +23,23 @@ const SignUp = () => {
   const [loading, setLoading] = useState(false);
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
+  const [passwordStrength, setPasswordStrength] = useState(0);
+  const [showStrengthBar, setShowStrengthBar] = useState(false);
 
   const handleInput = (e) => {
-    setValues(prev => ({
-      ...prev, [e.target.name]: e.target.value,
-    }));
+    const { name, value } = e.target;
+    setValues(prev => ({ ...prev, [name]: value }));
+
+    if (name === 'password') {
+      const strength = getPasswordStrength(value);
+      setPasswordStrength(strength);
+      setShowStrengthBar(value.length > 0); // Show strength bar only if password field is not empty
+    } else {
+      setShowStrengthBar(false); // Hide strength bar when not typing password
+    }
+
+    const validationErrors = SignUpValidation({ ...values, [name]: value });
+    setErrors(validationErrors);
   };
 
   const handleSubmit = (e) => {
@@ -77,6 +89,43 @@ const SignUp = () => {
     setConfirmPasswordVisible(!confirmPasswordVisible);
   };
 
+  const getPasswordStrength = (password) => {
+    let strength = 0;
+  
+    // Length check
+    if (password.length >= 8) {
+      strength++;
+    }
+  
+    // Check for number
+    if (/\d/.test(password)) {
+      strength++;
+    }
+  
+    // Check for uppercase and lowercase letters
+    if (/[a-z]/.test(password) && /[A-Z]/.test(password)) {
+      strength++;
+    }
+
+    // Length check
+    if (password.length >= 15) {
+      strength++;
+    }
+  
+    return strength;
+  };
+  
+  const getPasswordStrengthText = (strength) => {
+    switch (strength) {
+      case 0: return 'Very Weak';
+      case 1: return 'Weak';
+      case 2: return 'Medium';
+      case 3: return 'Strong';
+      case 4: return 'Very Strong';
+      default: return 'Unknown';
+    }
+  };
+
   return (
     <div className='signup-container'>
       <div className='addUser'>
@@ -85,13 +134,11 @@ const SignUp = () => {
         {loading ? <Spinner /> : (
           <form className='addUserForm' onSubmit={handleSubmit}>
             <div className='inputGroup'>
-              <label htmlFor='name'>Username:</label>
+              <label htmlFor='name'>Username: {errors.name && <span>{errors.name}</span>}</label>
               <input type='text' id='name' name='name' placeholder='Enter Username' onChange={handleInput} />
-              {errors.name && <span>{errors.name}</span>}
-              <label htmlFor='email'>Email:</label>
+              <label htmlFor='email'>Email:{errors.email && <span>{errors.email}</span>}</label>
               <input type='email' id='email' name='email' placeholder='Enter your Email' onChange={handleInput} />
-              {errors.email && <span>{errors.email}</span>}
-              <label htmlFor='password'>Password:</label>
+              <label htmlFor='password'>Password:{errors.password && <span>{errors.password}</span>}</label>
               <div className='passwordWrapper'>
                 <input
                   type={passwordVisible ? 'text' : 'password'}
@@ -106,8 +153,18 @@ const SignUp = () => {
                   className='eyeIcon'
                 />
               </div>
-              {errors.password && <span>{errors.password}</span>}
-              <label htmlFor='confirmPassword'>Confirm Password:</label>
+              {showStrengthBar && (
+                <div className='passwordStrengthWrapper'>
+                  <div className={`passwordStrengthBar strength-${passwordStrength}`}>
+                    <span></span>
+                  </div>
+                  <div className='passwordStrengthText'>
+                    {getPasswordStrengthText(passwordStrength)}
+                  </div>
+                </div>
+              )}
+              
+              <label htmlFor='confirmPassword'>Confirm Password:{errors.confirmPassword && <span>{errors.confirmPassword}</span>}</label>
               <div className='passwordWrapper'>
                 <input
                   type={confirmPasswordVisible ? 'text' : 'password'}
@@ -122,7 +179,7 @@ const SignUp = () => {
                   className='eyeIcon'
                 />
               </div>
-              {errors.confirmPassword && <span>{errors.confirmPassword}</span>}
+              
               <button type='submit' className='btn btn-success'>Sign Up</button>
             </div>
             <div className='logins'>

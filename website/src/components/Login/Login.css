@@ -28,8 +28,8 @@
     background-color: #ffffff;
     color: #016A70;
     box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.65);
-    width: 100%; /* Ensure full width */
-    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .inputGroup button {
@@ -76,11 +76,11 @@
 
 .passwordWrapper {
     position: relative;
-    width: 100%; /* Match the width of input fields */
+    width: 100%;
 }
 
 .passwordWrapper input {
-    width: 100%; /* Match the width of input fields */
+    width: 100%;
 }
 
 .eyeIcon {

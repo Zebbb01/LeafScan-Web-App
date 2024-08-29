@@ -1,21 +1,26 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   View,
   Text,
   TextInput,
   TouchableOpacity,
   StyleSheet,
-} from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
-import { useFonts, Nunito_600SemiBold, Nunito_700Bold, Nunito_400Regular } from '@expo-google-fonts/nunito';
-import { Toast } from 'react-native-toast-notifications';
-import axios from 'axios';
-import { SERVER_URI } from '@/utils/uri';
-import { router } from 'expo-router';
+} from "react-native";
+import { LinearGradient } from "expo-linear-gradient";
+import {
+  useFonts,
+  Nunito_600SemiBold,
+  Nunito_700Bold,
+  Nunito_400Regular,
+} from "@expo-google-fonts/nunito";
+import { Toast } from "react-native-toast-notifications";
+import axios from "axios";
+import { SERVER_URI } from "@/utils/uri";
+import { router } from "expo-router";
 
 export default function ForgotPassword() {
-  const [email, setEmail] = useState('');
-  const [error, setError] = useState('');
+  const [email, setEmail] = useState("");
+  const [error, setError] = useState("");
 
   let [fontsLoaded, fontError] = useFonts({
     Nunito_600SemiBold,
@@ -29,32 +34,39 @@ export default function ForgotPassword() {
 
   const handleSubmit = () => {
     if (!email) {
-      setError('Email is required');
+      setError("Email is required");
       return;
     }
 
     if (error) {
-      Toast.show('Please fix the errors before submitting.', { type: 'danger' });
+      Toast.show("Please fix the errors before submitting.", {
+        type: "danger",
+      });
       return;
     }
 
-    axios.post(`${SERVER_URI}/forgot_password`, { email })
+    axios
+      .post(`${SERVER_URI}/forgot_password`, { email })
       .then(() => {
-        Toast.show('A new password has been sent to your email.', { type: 'success' });
-        setEmail('');
+        Toast.show("A new password has been sent to your email.", {
+          type: "success",
+        });
+        setEmail("");
       })
-      .catch(error => {
+      .catch((error) => {
         if (axios.isAxiosError(error) && error.response?.data?.error) {
-          Toast.show(error.response.data.error, { type: 'danger' });
+          Toast.show(error.response.data.error, { type: "danger" });
         } else {
-          Toast.show('An error occurred. Please try again.', { type: 'danger' });
+          Toast.show("An error occurred. Please try again.", {
+            type: "danger",
+          });
         }
-        console.error('Error during password reset:', error);
+        console.error("Error during password reset:", error);
       });
   };
 
   return (
-    <LinearGradient colors={["#E5ECF9", "#F6F7F9"]} style={styles.container}>
+    <LinearGradient colors={["#ffffff", "#F8EDE3"]} style={styles.container}>
       <Text style={[styles.headerText, { fontFamily: "Nunito_600SemiBold" }]}>
         Reset Email Password
       </Text>
@@ -65,9 +77,7 @@ export default function ForgotPassword() {
         value={email}
         onChangeText={setEmail}
       />
-      {error ? (
-        <Text style={styles.errorText}>{error}</Text>
-      ) : null}
+      {error ? <Text style={styles.errorText}>{error}</Text> : null}
       <TouchableOpacity style={styles.button} onPress={handleSubmit}>
         <Text style={[styles.buttonText, { fontFamily: "Nunito_600SemiBold" }]}>
           Send
@@ -109,7 +119,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   button: {
-    backgroundColor: "#3876EE",
+    backgroundColor: "yellowgreen",
     width: "100%",
     height: 45,
     justifyContent: "center",
@@ -125,12 +135,12 @@ const styles = StyleSheet.create({
     marginTop: 30,
   },
   loginText: {
-    color: "#3876EE",
+    color: "#016A70",
     marginLeft: 5,
     fontSize: 16,
   },
   errorText: {
-    color: 'red',
+    color: "red",
     marginBottom: 10,
   },
 
