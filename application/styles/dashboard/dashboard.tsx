@@ -47,7 +47,7 @@ export const dashboardStyle = StyleSheet.create({
     marginBottom: hp("2.5%"),
   },
   logo: {
-    width: wp("65%"),
+    width: wp("55%"),
     height: hp("25%"),
     marginBottom: hp("1%"),
     resizeMode: "contain",

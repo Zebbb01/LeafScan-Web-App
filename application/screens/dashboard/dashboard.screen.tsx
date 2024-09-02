@@ -65,7 +65,6 @@ export default function DashboardScreen() {
 
     let result = await ImagePicker.launchCameraAsync({
       allowsEditing: true,
-      aspect: [4, 3],
       quality: 1,
     });
 
