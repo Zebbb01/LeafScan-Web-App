@@ -131,6 +131,7 @@ export default function DashboardScreen() {
           </TouchableOpacity>
         </View>
       </View>
+      <View style={dashboardStyle.borderLine}></View>
   
       <View style={dashboardStyle.firstContainer}>
         <View style={dashboardStyle.logoContainer}>

@@ -18,6 +18,10 @@ export const dashboardStyle = StyleSheet.create({
     width: "100%",
     paddingHorizontal: wp("5%"),
   },
+  borderLine: {
+    borderBottomWidth: 2,
+    borderBottomColor: "#ccc",
+  },
   welcomeText: {
     fontSize: hp("3%"),
     fontFamily: "Raleway_700Bold",
