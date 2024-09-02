@@ -13,7 +13,7 @@ export const onboardStyles = StyleSheet.create({
         marginTop: 50,
     },
     logo: {
-        width: wp("85%"),
+        width: wp("59%"),
         height: hp("16%"),
     },
     titleWrapper: {

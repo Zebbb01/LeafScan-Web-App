@@ -83,7 +83,7 @@ const Navbar = ({ user, onLogout }) => {
               className='btn btn-danger dropdown-toggle'
               onClick={toggleDropdown}
             >
-              {user.name}
+              {user.name} <span className="dropdown-icon"> ▼ </span>
             </button>
             <ul className={`dropdown-menu ${dropdownOpen ? 'show' : ''}`}>
               <li>

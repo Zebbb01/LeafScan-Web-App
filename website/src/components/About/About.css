@@ -24,6 +24,14 @@
     transform: translate(-50%,-50%);
     cursor: pointer;
 }
+.logo-video{
+    width: 70px;
+    position: absolute;
+    top: 86%;
+    left: 88%;
+    transform: translate( -50%, -50%);
+    cursor: pointer;
+}
 .about h3{
     font-weight: 600;
     font-size: 16px;

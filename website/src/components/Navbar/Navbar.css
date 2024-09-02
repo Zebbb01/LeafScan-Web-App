@@ -18,7 +18,7 @@ nav ul li a:hover {
   transition: 0.3s;
 }
 .logo {
-    width: 150px;
+    width: 100px;
 }
 nav ul li{
     display: inline-block;
