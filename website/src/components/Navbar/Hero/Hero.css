@@ -23,6 +23,13 @@
     margin: 10px auto 20px;
     line-height: 1.4;
 }
+
+.btn img {
+    color: #fff;
+    width: 35px; /* Adjust the size as needed */
+    height: 25px; /* Maintains aspect ratio */
+    margin-left: 10px; /* Adds spacing between text and arrow */
+}
 /* ----- media queries to become responsive ----- */
 @media (max-width: 650px){
     .hero-text h1{
@@ -34,5 +41,9 @@
         font-size: 14px;
         margin: 15px auto 30px;
     }
+    .btn img {
+        width: 15px; /* Adjust size for smaller screens */
+    }
+    
 
 }
