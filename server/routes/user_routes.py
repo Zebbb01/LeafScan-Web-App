@@ -11,6 +11,18 @@ def init_user_routes(app):
     bcrypt = Bcrypt(app)
     mail = Mail(app)
 
+    # Load pepper from environment variables
+    PEPPER = os.getenv("PEPPER", "defaultpepper")
+
+    # Helper functions for hashing and checking passwords with pepper
+    def hash_password(password):
+        peppered_password = password + PEPPER
+        return bcrypt.generate_password_hash(peppered_password).decode('utf-8')
+
+    def check_password(hashed_password, password):
+        peppered_password = password + PEPPER
+        return bcrypt.check_password_hash(hashed_password, peppered_password)
+
     # Generate a random verification code
     def generate_verification_code():
         return ''.join(random.choices(string.ascii_uppercase + string.digits, k=4))
@@ -49,7 +61,7 @@ def init_user_routes(app):
                     return password
 
         new_password = generate_password()
-        hashed_password = bcrypt.generate_password_hash(new_password).decode('utf-8')
+        hashed_password = hash_password(new_password)  # Use the hash_password function
         
         user.password = hashed_password
         db.session.commit()
@@ -77,14 +89,14 @@ def init_user_routes(app):
             # Resend verification code
             verification_code = generate_verification_code()
             user.verification_code = verification_code
-            user.password = bcrypt.generate_password_hash(password).decode('utf-8')
+            user.password = hash_password(password)  # Hash with pepper
             db.session.commit()
             send_verification_email(email, verification_code)
             return jsonify({"message": "Verification email resent. Please check your email."}), 200
         
         # Create new user if not exists
         verification_code = generate_verification_code()
-        hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
+        hashed_password = hash_password(password)  # Hash with pepper
         new_user = User(name=name, email=email, password=hashed_password, is_verified=False, verification_code=verification_code)
         db.session.add(new_user)
         db.session.commit()
@@ -128,7 +140,7 @@ def init_user_routes(app):
             return jsonify({"error": "Email already exists"}), 409
         
         verification_code = generate_verification_code()
-        hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
+        hashed_password = hash_password(password)  # Hash with pepper
         new_user = User(name=name, email=email, password=hashed_password, is_verified=True, verification_code=verification_code)
         db.session.add(new_user)
         db.session.commit()
@@ -150,7 +162,7 @@ def init_user_routes(app):
         if user is None:
             return jsonify({"error": "Email not exist"}), 401
         
-        if not bcrypt.check_password_hash(user.password, password):
+        if not check_password(user.password, password):  # Use check_password with pepper
             return jsonify({"error": "Wrong password"}), 401
         
         if not user.is_verified:
@@ -180,7 +192,7 @@ def init_user_routes(app):
         })
     
     @app.route("/check-password", methods=["POST"])
-    def check_password():
+    def check_password_route():
         id = request.json["id"]
         password = request.json["password"]
     
@@ -188,7 +200,7 @@ def init_user_routes(app):
         if user is None:
             return jsonify({"error": "User not found"}), 404
     
-        if bcrypt.check_password_hash(user.password, password):
+        if check_password(user.password, password):  # Use check_password with pepper
             return jsonify({"valid": True}), 200
         else:
             return jsonify({"valid": False}), 200
@@ -205,7 +217,7 @@ def init_user_routes(app):
             user.name = data['name']
     
         if 'password' in data:
-            new_password = bcrypt.generate_password_hash(data['password']).decode('utf-8')
+            new_password = hash_password(data['password'])  # Hash with pepper
             user.password = new_password
     
         try:

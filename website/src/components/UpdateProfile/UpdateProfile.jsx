@@ -1,10 +1,11 @@
-/* eslint-disable react/prop-types */
 import { useState, useEffect } from 'react';
 import './UpdateProfile.css';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import { toast, Zoom } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import UpdateProfileValidation from './UpdateProfileValidation';
 
 const UpdateProfile = ({ setUser }) => {
@@ -15,6 +16,8 @@ const UpdateProfile = ({ setUser }) => {
   const [newPassword, setNewPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
+  const [currentPasswordVisible, setCurrentPasswordVisible] = useState(false);
+  const [newPasswordVisible, setNewPasswordVisible] = useState(false);
 
   useEffect(() => {
     setLoading(true);
@@ -31,6 +34,14 @@ const UpdateProfile = ({ setUser }) => {
   }, [id]);
 
   const navigate = useNavigate();
+
+  const toggleCurrentPasswordVisibility = () => {
+    setCurrentPasswordVisible(!currentPasswordVisible);
+  };
+
+  const toggleNewPasswordVisibility = () => {
+    setNewPasswordVisible(!newPasswordVisible);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -139,7 +150,7 @@ const UpdateProfile = ({ setUser }) => {
         });
       });
   };
-  
+
   const handleCancel = () => {
     navigate('/home');
   };
@@ -177,31 +188,45 @@ const UpdateProfile = ({ setUser }) => {
           </div>
           <div className='mb-2'>
             <label htmlFor="currentPassword">Current Password</label>
-            <input
-              type="password"
-              id="currentPassword"
-              value={currentPassword}
-              placeholder="Enter Current Password"
-              className='form-control'
-              onChange={e => setCurrentPassword(e.target.value)}
-            />
+            <div className='passwordWrapper'>
+              <input
+                type={currentPasswordVisible ? 'text' : 'password'}
+                id="currentPassword"
+                value={currentPassword}
+                placeholder="Enter Current Password"
+                className='form-control'
+                onChange={e => setCurrentPassword(e.target.value)}
+              />
+              <FontAwesomeIcon
+                icon={currentPasswordVisible ? faEyeSlash : faEye}
+                onClick={toggleCurrentPasswordVisibility}
+                className='up-eyeIcon'
+              />
+            </div>
             {errors.currentPassword && <span>{errors.currentPassword}</span>}
           </div>
           <div className='mb-2'>
             <label htmlFor="newPassword">New Password</label>
-            <input
-              type="password"
-              id="newPassword"
-              value={newPassword}
-              placeholder="Enter New Password"
-              className='form-control'
-              onChange={e => setNewPassword(e.target.value)}
-            />
+            <div className='passwordWrapper'>
+              <input
+                type={newPasswordVisible ? 'text' : 'password'}
+                id="newPassword"
+                value={newPassword}
+                placeholder="Enter New Password"
+                className='form-control'
+                onChange={e => setNewPassword(e.target.value)}
+              />
+              <FontAwesomeIcon
+                icon={newPasswordVisible ? faEyeSlash : faEye}
+                onClick={toggleNewPasswordVisibility}
+                className='up-eyeIcon'
+              />
+            </div>
             {errors.newPassword && <span>{errors.newPassword}</span>}
           </div>
           <div className='btn-update'>
-          <button type="submit" className='btn btn-info'>Update</button>
-          <button type="button" className='btn btn-secondary' onClick={handleCancel}>Cancel</button>
+            <button type="submit" className='btn btn-info'>Update</button>
+            <button type="button" className='btn btn-secondary' onClick={handleCancel}>Cancel</button>
           </div>
         </form>
       </div>

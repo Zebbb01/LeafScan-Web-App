@@ -21,6 +21,25 @@
   text-transform: uppercase;
 }
 
+.passwordWrapper {
+  position: relative;
+  width: 100%;
+}
+
+.passwordWrapper input {
+  width: 100%;
+}
+
+.up-eyeIcon {
+  position: absolute;
+  right: 10px;
+  top: 40%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #016A70;
+}
+
+
 .form-control {
   width: 100%;
   padding: 10px;
