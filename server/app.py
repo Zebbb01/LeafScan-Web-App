@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, send_from_directory
 from flask_cors import CORS
 from flask_mail import Mail
 from flask_migrate import Migrate
@@ -17,7 +17,7 @@ app = Flask(__name__)
 
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
 app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('SQLALCHEMY_DATABASE_URI')
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = os.getenv('SQLALCHEMY_TRACK_MODIFICATIONS') == 'True'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = os.getenv('SQLALCHEMY_TRACK_MODIFICATIONS', 'False').lower() == 'true'
 app.config['SQLALCHEMY_ECHO'] = os.getenv('SQLALCHEMY_ECHO') == 'True'
 
 app.config['MAIL_SERVER'] = os.getenv('MAIL_SERVER')
@@ -34,6 +34,17 @@ CORS(app, supports_credentials=True, resources={r"/*": {"origins": "*"}})
 
 db.init_app(app)
 migrate = Migrate(app, db)
+
+website_folder = os.path.join(os.getcwd(),"..","website")
+dist_folder = os.path.join(website_folder,"dist")
+
+# Server static files from the "dist" folder under the "website" directory
+@app.route("/",defaults={"filename":""})
+@app.route("/<path:filename>")
+def index(filename):
+    if not filename:
+        filename = "index.html"
+    return send_from_directory(dist_folder,filename)
 
 # Initialize routes
 init_user_routes(app)

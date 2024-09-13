@@ -1,0 +1,20 @@
+services:
+  server:
+    build: ./server
+    ports:
+      - "5000:5000"  # Expose Flask on port 5000 externally and internally
+    volumes:
+      - ./server:/app
+    env_file:
+      - ./server/.env
+    environment:
+      FLASK_ENV: development
+
+  website:
+    build: ./website
+    ports:
+      - "3001:3000"  # Access React on port 3001 externally
+    volumes:
+      - ./website:/app/website
+    depends_on:
+      - server  # Ensure React starts after Flask

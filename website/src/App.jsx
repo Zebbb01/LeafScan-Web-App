@@ -1,21 +1,23 @@
-import { useState, useEffect } from 'react';
+import React, { Suspense, useState, useEffect } from 'react';
 import { Routes, Route, BrowserRouter, useLocation } from 'react-router-dom';
-import Navbar from './components/Navbar/Navbar';
-import Hero from './components/Navbar/Hero/Hero';
-import Collections from './components/Collections/Collections';
-import Title from './components/Title/Title';
-import About from './components/About/About';
-import Contact from './components/Contact/Contact';
-import Footer from './components/Footer/Footer';
-import VideoPlayer from './components/VideoPlayer/VideoPlayer';
-import SignUp from './components/SignUp/SignUp';
-import Login from './components/Login/Login';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import UpdateProfile from './components/UpdateProfile/UpdateProfile';
-import Scan from './components/Scan/Scan';
-import Forecast from './components/Forecast/ForecastLine';
-import SatelliteTimeSeries from './components/Forecast/SatelliteTimeSeries/SatelliteTimeSeries';
+
+// Dynamically import components
+const Navbar = React.lazy(() => import('./components/Navbar/Navbar'));
+const Hero = React.lazy(() => import('./components/Navbar/Hero/Hero'));
+const Collections = React.lazy(() => import('./components/Collections/Collections'));
+const Title = React.lazy(() => import('./components/Title/Title'));
+const About = React.lazy(() => import('./components/About/About'));
+const Contact = React.lazy(() => import('./components/Contact/Contact'));
+const Footer = React.lazy(() => import('./components/Footer/Footer'));
+const VideoPlayer = React.lazy(() => import('./components/VideoPlayer/VideoPlayer'));
+const SignUp = React.lazy(() => import('./components/SignUp/SignUp'));
+const Login = React.lazy(() => import('./components/Login/Login'));
+const UpdateProfile = React.lazy(() => import('./components/UpdateProfile/UpdateProfile'));
+const Scan = React.lazy(() => import('./components/Scan/Scan'));
+const Forecast = React.lazy(() => import('./components/Forecast/ForecastLine'));
+// const SatelliteTimeSeries = React.lazy(() => import('./components/Forecast/SatelliteTimeSeries/SatelliteTimeSeries'));
 
 const App = () => {
   const [user, setUser] = useState(null);
@@ -45,32 +47,63 @@ const App = () => {
   return (
     <>
       {location.pathname !== '/' && location.pathname !== '/signup' && !location.pathname.startsWith('/update/') && (
-        <Navbar user={user} onLogout={handleLogout} />
+        <Suspense fallback={<div>Loading Navbar...</div>}>
+          <Navbar user={user} onLogout={handleLogout} />
+        </Suspense>
       )}
-      <Routes>
-        <Route path='/' element={<Login setUser={setUser} />} />
-        <Route path='/signup' element={<SignUp />} />
-        <Route path='/update/:id' element={<UpdateProfile setUser={setUser} />} />
-        <Route path='/home' element={
-          <div className='App'>
-            <Hero />
-            <div className="container">
-            <Title subTitle='Disease Detection' title='Scan Your Cacao Leaf' />
-            <Scan />
-            <Title subTitle='Disease Overview' title='Types of Cacao Leaf Diseases' />
-              <Collections />
-              <Title subTitle='Forecasting' title='Cacao Production Forecast' />
-              <Forecast />
-              <SatelliteTimeSeries />
-              <About setPlayState={setPlayState} />
-              <Title subTitle='Reach Out' title='Contact Us' />
-              <Contact />
-              <Footer />
+      <Suspense fallback={<div>Loading...</div>}>
+        <Routes>
+          <Route path='/' element={<Login setUser={setUser} />} />
+          <Route path='/signup' element={<SignUp />} />
+          <Route path='/update/:id' element={<UpdateProfile setUser={setUser} />} />
+          <Route path='/home' element={
+            <div className='App'>
+              <Suspense fallback={<div>Loading Hero...</div>}>
+                <Hero />
+              </Suspense>
+              <div className="container">
+                <Suspense fallback={<div>Loading Title...</div>}>
+                  <Title subTitle='Disease Detection' title='Scan Your Cacao Leaf' />
+                </Suspense>
+                <Suspense fallback={<div>Loading Scan...</div>}>
+                  <Scan />
+                </Suspense>
+                <Suspense fallback={<div>Loading Title...</div>}>
+                  <Title subTitle='Disease Overview' title='Types of Cacao Leaf Diseases' />
+                </Suspense>
+                <Suspense fallback={<div>Loading Collections...</div>}>
+                  <Collections />
+                </Suspense>
+                <Suspense fallback={<div>Loading Title...</div>}>
+                  <Title subTitle='Forecasting' title='Cacao Production Forecast' />
+                </Suspense>
+                <Suspense fallback={<div>Loading Forecast...</div>}>
+                  <Forecast />
+                </Suspense>
+                {/* <Suspense fallback={<div>Loading SatelliteTimeSeries...</div>}>
+                  <SatelliteTimeSeries />
+                </Suspense> */}
+                <Suspense fallback={<div>Loading About...</div>}>
+                  <About setPlayState={setPlayState} />
+                </Suspense>
+                <Suspense fallback={<div>Loading Title...</div>}>
+                  <Title subTitle='Reach Out' title='Contact Us' />
+                </Suspense>
+                <Suspense fallback={<div>Loading Contact...</div>}>
+                  <Contact />
+                </Suspense>
+                <Suspense fallback={<div>Loading Footer...</div>}>
+                  <Footer />
+                </Suspense>
+              </div>
+              <Suspense fallback={<div>Loading VideoPlayer...</div>}>
+                <VideoPlayer playState={playState} setPlayState={setPlayState} />
+              </Suspense>
             </div>
-            <VideoPlayer playState={playState} setPlayState={setPlayState} />
-          </div>
-        } />
-      </Routes>
+          } />
+        </Routes>
+      </Suspense>
+      <ToastContainer position="bottom-right" />
     </>
   );
 };
@@ -78,7 +111,6 @@ const App = () => {
 const Root = () => (
   <BrowserRouter>
     <App />
-    <ToastContainer position="bottom-right" />
   </BrowserRouter>
 );
 
