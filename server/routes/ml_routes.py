@@ -19,7 +19,7 @@ def init_ml_routes(app):
 
     CLASS_NAMES = ["Cacao Early Blight", "Cacao Healthy", "Cacao Late Blight", "Cacao Leaf Spot"]
 
-    @app.route("/upload_image", methods=["POST"])
+    @app.route("/api/upload_image", methods=["POST"])
     def upload_image():
         try:
             if 'image' not in request.files:
@@ -84,7 +84,7 @@ def init_ml_routes(app):
 
     # ---------------------------------- Sarima Model ------------------------------------ #
     
-    @app.route('/prediction', methods=['GET'])
+    @app.route('/api/prediction', methods=['GET'])
     def prediction():
         try:
             # Load the dataset
@@ -146,7 +146,7 @@ def init_ml_routes(app):
             print(f"Error in prediction endpoint: {str(e)}")
             return jsonify({"error": str(e)}), 500
         
-    @app.route('/satellite-data', methods=['GET'])
+    @app.route('/api/satellite-data', methods=['GET'])
     def satellite_data():
         try:
             # Load the dataset
@@ -178,7 +178,7 @@ def init_ml_routes(app):
     
     
     
-    @app.route('/correlation-data', methods=['GET'])
+    @app.route('/api/correlation-data', methods=['GET'])
     def correlation_data():
         try:
             # Load the dataset

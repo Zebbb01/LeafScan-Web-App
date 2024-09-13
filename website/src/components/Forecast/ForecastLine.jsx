@@ -14,7 +14,7 @@ const ForecastLine = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('http://127.0.0.1:5000/prediction');
+        const response = await fetch('/api/prediction', { withCredentials: true });
         const contentType = response.headers.get('content-type');
   
         if (!response.ok || !contentType.includes('application/json')) {

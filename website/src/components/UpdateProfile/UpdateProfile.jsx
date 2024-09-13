@@ -104,7 +104,7 @@ const UpdateProfile = ({ setUser }) => {
   const updateProfile = async (dataToUpdate) => {
     setLoading(true);
 
-    axios.put(`http://127.0.0.1:5000/update/${id}`, dataToUpdate)
+    axios.put(`/api/update/${id}`, dataToUpdate, { withCredentials: true })
       .then(res => {
         setLoading(false);
         if (res.data.updated) {

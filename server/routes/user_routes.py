@@ -42,8 +42,12 @@ def init_user_routes(app):
         '''
         mail.send(msg)
 
+    @app.route("/api/get", methods=["GET"])
+    def get_hello():
+        return "Hello, World!"
+    
     # Forgot Password
-    @app.route("/forgot_password", methods=["POST"])
+    @app.route("/api/forgot_password", methods=["POST"])
     def forgot_password():
         email = request.json.get("email")
         
@@ -75,7 +79,7 @@ def init_user_routes(app):
         return jsonify({"message": "New password sent to your email"}), 200
 
     # SignUp
-    @app.route("/create_token", methods=["POST"])
+    @app.route("/api/create_token", methods=["POST"])
     def create_token():
         name = request.json["name"]
         email = request.json["email"]
@@ -110,7 +114,7 @@ def init_user_routes(app):
         })
     
     # Verify account
-    @app.route("/verify_account", methods=["POST"])
+    @app.route("/api/verify_account", methods=["POST"])
     def verify_account():
         email = request.json["email"]
         code = request.json["code"]
@@ -128,7 +132,7 @@ def init_user_routes(app):
         return jsonify({"status": "verified"})
     
     # SignUp Website
-    @app.route("/create_token1", methods=["POST"])
+    @app.route("/api/create_token1", methods=["POST"])
     def create_token1():
         name = request.json["name"]
         email = request.json["email"]
@@ -152,7 +156,7 @@ def init_user_routes(app):
         })
     
     # Login
-    @app.route("/token", methods=["POST"])
+    @app.route("/api/token", methods=["POST"])
     def token():
         email = request.json["email"]
         password = request.json["password"]
@@ -177,9 +181,9 @@ def init_user_routes(app):
                 "name": user.name,
                 "email": user.email
             }
-        })
+        }), 200
     
-    @app.route("/user/<id>", methods=["GET"])
+    @app.route("/api/user/<id>", methods=["GET"])
     def get_user(id):
         user = User.query.get(id)
         if user is None:
@@ -191,7 +195,7 @@ def init_user_routes(app):
             "email": user.email
         })
     
-    @app.route("/check-password", methods=["POST"])
+    @app.route("/api/check-password", methods=["POST"])
     def check_password_route():
         id = request.json["id"]
         password = request.json["password"]
@@ -205,7 +209,7 @@ def init_user_routes(app):
         else:
             return jsonify({"valid": False}), 200
     
-    @app.route("/update/<id>", methods=["PUT"])
+    @app.route("/api/update/<id>", methods=["PUT"])
     def update_profile(id):
         data = request.json
     

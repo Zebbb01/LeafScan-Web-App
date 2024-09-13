@@ -32,7 +32,7 @@ const Login = ({ setUser }) => {
 
     if (!validationErrors.email && !validationErrors.password) {
       setLoading(true);
-      axios.post('http://127.0.0.1:5000/token', values)
+      axios.post('/api/token', values, { withCredentials: true })
         .then(res => {
           setLoading(false);
           if (res.data.status === "success") {

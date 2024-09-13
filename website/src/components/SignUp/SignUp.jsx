@@ -49,7 +49,7 @@ const SignUp = () => {
 
     if (!validationErrors.name && !validationErrors.email && !validationErrors.password && !validationErrors.confirmPassword) {
       setLoading(true);
-      axios.post('http://127.0.0.1:5000/create_token1', values)
+      axios.post('/api/create_token1', values, { withCredentials: true })
         .then(() => {
           setLoading(false);
           navigate('/');

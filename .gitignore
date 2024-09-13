@@ -22,7 +22,7 @@ Thumbs.db
 # Python
 *.py[cod]
 __pycache__/
-server/venv/
+# server/venv/
 
 # Environment variables
 **/.env
