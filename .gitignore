@@ -8,7 +8,7 @@ npm-debug.log*
 
 # Dependency directories
 application/node_modules/
-frontend/node_modules/
+website/node_modules/
 server/node_modules/
 
 # Generated files
@@ -22,7 +22,7 @@ Thumbs.db
 # Python
 *.py[cod]
 __pycache__/
-# server/venv/
+server/venv/
 
 # Environment variables
 **/.env
@@ -39,4 +39,3 @@ frontend/dist/
 **/coverage/
 *.tmp
 *.temp
-
