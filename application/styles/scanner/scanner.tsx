@@ -1,21 +1,26 @@
+import { Dimensions } from "react-native";
 import { StyleSheet } from "react-native";
 
+const { width } = Dimensions.get('window');
 const styles = StyleSheet.create({
+  gradient: {
+    flex: 1,
+    paddingTop: 20,
+  },
   container: {
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "transparent",
   },
   title: {
-    fontSize: 26,
+    fontSize: 24,
     fontFamily: "Raleway_700Bold",
     color: "#4a4a4a",
-    marginBottom: 30,
+    marginBottom: 20,
   },
   image: {
-    width: 320,
-    height: 320,
+    width: width * 0.8,
+    height: width * 0.8,
     marginBottom: 20,
     borderRadius: 10,
     borderWidth: 2,
@@ -24,7 +29,7 @@ const styles = StyleSheet.create({
   buttonContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
-    width: "80%",
+    width: "90%",
     marginBottom: 20,
   },
   button: {
@@ -64,9 +69,28 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flexDirection: "row",
     justifyContent: "center",
-    width: "80%",
+    width: "90%",
+    marginBottom: 20,
   },
   viewButtonText: {
+    color: "#fff",
+    fontSize: 16,
+    fontFamily: "Raleway_600SemiBold",
+    marginLeft: 5,
+  },
+  homeButton: {
+    backgroundColor: "green",
+    padding: 15,
+    borderRadius: 10,
+    alignItems: "center",
+    flexDirection: "row",
+    justifyContent: "center",
+    width: "90%",
+    position: "absolute",
+    bottom: 20,
+    left: "5%", // Center the button horizontally
+  },
+  homeButtonText: {
     color: "#fff",
     fontSize: 16,
     fontFamily: "Raleway_600SemiBold",
@@ -80,6 +104,7 @@ const styles = StyleSheet.create({
   },
   modalContent: {
     width: "85%",
+    maxWidth: 400,
     backgroundColor: "#ffffff",
     borderRadius: 15,
     padding: 25,
@@ -96,6 +121,11 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   modalLabel: {
+    fontWeight: "bold",
+    fontSize: 18,
+    marginBottom: 10,
+  },
+  modalLabel2: {
     fontSize: 18,
     marginBottom: 10,
   },
@@ -111,6 +141,33 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
   },
+  loadingContainer: {
+    flexDirection: 'column',
+    alignItems: 'center',
+    marginTop: 20,
+  },
+  loadingText: {
+    marginTop: 10,
+    color: 'gray',
+    fontSize: 16,
+  },
+  changeImageButton: {
+    backgroundColor: "#016A70", // Adjust color as needed
+    padding: 15,
+    borderRadius: 10,
+    alignItems: "center",
+    justifyContent: "center",
+    width: "90%",
+    marginBottom: 10,
+  },
+  resultButtonContainer: {
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    width: "90%",
+    marginBottom: 20,
+  },
+  
 });
 
 export default styles;

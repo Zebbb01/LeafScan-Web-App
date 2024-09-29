@@ -2,7 +2,6 @@ import {
   View,
   Text,
   Image,
-  StyleSheet,
   TextInput,
   TouchableOpacity,
   ActivityIndicator,
@@ -32,6 +31,7 @@ import { SERVER_URI } from "@/utils/uri";
 import { Toast } from "react-native-toast-notifications";
 import { useUser } from "../../../context/UserProvider";
 import styles from "@/styles/auth/login"
+import React from "react";
 
 export default function LoginScreen() {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
@@ -106,6 +106,15 @@ export default function LoginScreen() {
       return;
     }
 
+    if (error.email) {
+      Toast.show("Email address not found.", { type: "danger" });
+      return;
+    }
+    if (error.password) {
+      Toast.show("Wrong password", { type: "danger" });
+      return;
+    }
+
     if (error.email || error.password) {
       Toast.show("Please fix the errors before submitting.", { type: "danger" });
       return;
@@ -113,7 +122,7 @@ export default function LoginScreen() {
 
     setButtonSpinner(true);
     axios
-      .post(`${SERVER_URI}/token`, {
+      .post(`${SERVER_URI}/api/token`, {
         email: userInfo.email,
         password: userInfo.password,
       })
@@ -123,7 +132,7 @@ export default function LoginScreen() {
         Toast.show("Login successfully.", { type: "success" });
         setUserInfo({ email: "", password: "" });
         setButtonSpinner(false);
-        router.push("/(routes)/dashboard"); // Navigate to dashboard or home screen after login
+        router.push("/(routes)/camera"); // Navigate to dashboard or home screen after login
       })
       .catch((error) => {
         setButtonSpinner(false);

@@ -12,7 +12,7 @@ import { dashboardStyle } from "@/styles/dashboard/dashboard"; // Import the sty
 export default function DashboardScreen() {
   const { user } = useUser();
   const [image, setImage] = useState<string | null>(null);
-  const [activeTab, setActiveTab] = useState("gallery");
+  const [activeTab, setActiveTab] = useState("camera");
 
   let [fontsLoaded, fontError] = useFonts({
     Raleway_700Bold,
@@ -27,12 +27,10 @@ export default function DashboardScreen() {
   const requestPermissions = async () => {
     const { status: cameraStatus } =
       await ImagePicker.requestCameraPermissionsAsync();
-    const { status: galleryStatus } =
-      await ImagePicker.requestMediaLibraryPermissionsAsync();
-    if (cameraStatus !== "granted" || galleryStatus !== "granted") {
+    if (cameraStatus !== "granted") {
       Alert.alert(
         "Permission Denied",
-        "We need camera and gallery permissions to make this work!"
+        "We need camera permission to make this work!"
       );
       return false;
     }
@@ -45,7 +43,6 @@ export default function DashboardScreen() {
 
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
       quality: 1,
     });
 
@@ -59,23 +56,11 @@ export default function DashboardScreen() {
     }
   };
 
-  const takePicture = async () => {
+  const handleStartScanning = async () => {
     const permissionsGranted = await requestPermissions();
     if (!permissionsGranted) return;
 
-    let result = await ImagePicker.launchCameraAsync({
-      allowsEditing: true,
-      quality: 1,
-    });
-
-    if (!result.canceled && result.assets && result.assets.length > 0) {
-      const imageUri = result.assets[0].uri;
-      setImage(imageUri);
-      router.push({
-        pathname: "/(routes)/scanner",
-        params: { imageUri },
-      });
-    }
+    router.push("/(routes)/camera"); // Navigate to the camera screen directly
   };
 
   const handleEditProfile = () => {
@@ -90,25 +75,14 @@ export default function DashboardScreen() {
   };
 
   const renderTabContent = () => {
-    if (activeTab === "gallery") {
-      return (
-        <TouchableOpacity
-          style={dashboardStyle.buttonWrapper}
-          onPress={pickImage}
-        >
-          <Ionicons name="image-outline" size={24} color="white" />
-          <Text style={dashboardStyle.buttonText}>Pick Image from Gallery</Text>
-        </TouchableOpacity>
-      );
-    }
     if (activeTab === "camera") {
       return (
         <TouchableOpacity
           style={dashboardStyle.buttonWrapper}
-          onPress={takePicture}
+          onPress={handleStartScanning}
         >
-          <Ionicons name="camera-outline" size={24} color="white" />
-          <Text style={dashboardStyle.buttonText}>Take a Picture</Text>
+          <Ionicons name="scan-outline" size={24} color="white" />
+          <Text style={dashboardStyle.buttonText}>Start Scanning</Text>
         </TouchableOpacity>
       );
     }
@@ -131,7 +105,7 @@ export default function DashboardScreen() {
         </View>
       </View>
       <View style={dashboardStyle.borderLine}></View>
-  
+
       <View style={dashboardStyle.firstContainer}>
         <View style={dashboardStyle.logoContainer}>
           <Image
@@ -155,32 +129,10 @@ export default function DashboardScreen() {
           <Text style={dashboardStyle.dscpText}>Start Detecting Disease With</Text>
           <Text style={dashboardStyle.dscpText}>LeafScan</Text>
         </View>
-  
+
         {/* Button */}
         <View style={dashboardStyle.buttonWrapperContainer}>
           {renderTabContent()}
-        </View>
-  
-        {/* Tab Buttons */}
-        <View style={dashboardStyle.tabContainer}>
-          <TouchableOpacity
-            style={[
-              dashboardStyle.tabButton,
-              activeTab === "gallery" && dashboardStyle.activeTab,
-            ]}
-            onPress={() => setActiveTab("gallery")}
-          >
-            <Text style={dashboardStyle.tabButtonText}>Gallery</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[
-              dashboardStyle.tabButton,
-              activeTab === "camera" && dashboardStyle.activeTab,
-            ]}
-            onPress={() => setActiveTab("camera")}
-          >
-            <Text style={dashboardStyle.tabButtonText}>Camera</Text>
-          </TouchableOpacity>
         </View>
       </View>
     </LinearGradient>

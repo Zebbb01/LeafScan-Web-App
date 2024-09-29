@@ -7,6 +7,7 @@ import { Link as ScrollLink } from 'react-scroll';
 import { toast, Zoom } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import PropTypes from 'prop-types';
+import profile_icon from '../../assets/profile-user.png';
 
 const Navbar = ({ user, onLogout }) => {
   const [sticky, setSticky] = useState(false);
@@ -83,7 +84,8 @@ const Navbar = ({ user, onLogout }) => {
               className='btn btn-danger dropdown-toggle'
               onClick={toggleDropdown}
             >
-              {user.name} <span className="dropdown-icon"> ▼ </span>
+              {user.name} <span className="dropdown-icon"> 
+                <img src={profile_icon} alt="profile_icon" className='profile_icon' /> </span>
             </button>
             <ul className={`dropdown-menu ${dropdownOpen ? 'show' : ''}`}>
               <li>
