@@ -31,10 +31,10 @@ export const dashboardStyle = StyleSheet.create({
     flexDirection: "row",
   },
   iconButton: {
-    padding: wp("2%"),
+    padding: wp("1%"),
   },
   logoutIcon: {
-    marginLeft: wp("3%"),
+    marginLeft: wp("2%"),
   },
   firstContainer: {
     flex: 1,
@@ -91,7 +91,8 @@ export const dashboardStyle = StyleSheet.create({
   buttonWrapperContainer: {
     width: "100%",
     alignItems: "center",
-    marginBottom: hp("2.5%"),
+    marginTop: hp("5.5%"),
+    marginBottom: hp("5.5%"),
   },
   buttonWrapper: {
     flexDirection: "row",
@@ -109,26 +110,5 @@ export const dashboardStyle = StyleSheet.create({
     color: "#fff",
     fontFamily: "Nunito_700Bold",
     marginLeft: wp("2%"),
-  },
-  tabContainer: {
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: hp("2.5%"),
-  },
-  tabButton: {
-    backgroundColor: "#F8EDE3",
-    paddingVertical: hp("1.25%"),
-    paddingHorizontal: wp("8%"),
-    borderRadius: wp("4%"),
-    marginHorizontal: wp("2.5%"),
-  },
-  activeTab: {
-    backgroundColor: "#e0e0e0",
-  },
-  tabButtonText: {
-    fontSize: hp("2%"),
-    fontFamily: "Nunito_700Bold",
-    color: "#333",
   },
 });

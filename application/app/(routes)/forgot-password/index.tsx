@@ -17,6 +17,7 @@ import { Toast } from "react-native-toast-notifications";
 import axios from "axios";
 import { SERVER_URI } from "@/utils/uri";
 import { router } from "expo-router";
+import styles from "@/styles/auth/forgotpassword";
 
 export default function ForgotPassword() {
   const [email, setEmail] = useState("");
@@ -46,7 +47,7 @@ export default function ForgotPassword() {
     }
 
     axios
-      .post(`${SERVER_URI}/forgot_password`, { email })
+      .post(`${SERVER_URI}/api/forgot_password`, { email })
       .then(() => {
         Toast.show("A new password has been sent to your email.", {
           type: "success",
@@ -97,52 +98,3 @@ export default function ForgotPassword() {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    paddingHorizontal: 20,
-  },
-  headerText: {
-    fontSize: 18,
-    textAlign: "center",
-    marginBottom: 20,
-  },
-  input: {
-    width: "100%",
-    height: 50,
-    borderWidth: 1,
-    borderColor: "#ccc",
-    borderRadius: 5,
-    padding: 10,
-    marginBottom: 20,
-  },
-  button: {
-    backgroundColor: "yellowgreen",
-    width: "100%",
-    height: 45,
-    justifyContent: "center",
-    alignItems: "center",
-    borderRadius: 5,
-  },
-  buttonText: {
-    color: "white",
-    fontSize: 16,
-  },
-  loginLink: {
-    flexDirection: "row",
-    marginTop: 30,
-  },
-  loginText: {
-    color: "#016A70",
-    marginLeft: 5,
-    fontSize: 16,
-  },
-  errorText: {
-    color: "red",
-    marginBottom: 10,
-  },
-
-  backText: { fontSize: 16 },
-});

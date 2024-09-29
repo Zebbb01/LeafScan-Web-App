@@ -114,14 +114,25 @@ export default function SignUpScreen() {
       return;
     }
   
-    if (error.password || error.email) {
-      Toast.show("Please fix the errors before submitting.", { type: "danger" });
+    if (error.email) {
+      Toast.show("Email address not found.", { type: "danger" });
       return;
     }
+
+    if (error.password) {
+      Toast.show("Choose a stronger password.", { type: "danger" });
+      return;
+    }
+
+    if (error.password || error.email) {
+      Toast.show("Make necessary changes to the input before submitting.", { type: "danger" });
+      return;
+    }
+
   
     setButtonSpinner(true);
     axios
-      .post(`${SERVER_URI}/create_token`, {
+      .post(`${SERVER_URI}/api/create_token`, {
         name: userInfo.name,
         email: userInfo.email,
         password: userInfo.password,

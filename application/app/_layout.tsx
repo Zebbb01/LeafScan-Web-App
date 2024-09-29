@@ -7,6 +7,7 @@ import { ToastProvider } from "react-native-toast-notifications";
 import { View } from "react-native";
 import { Stack } from "expo-router";
 import { UserProvider } from "../context/UserProvider";
+import React from "react";
 
 export { ErrorBoundary } from "expo-router";
 
@@ -33,14 +34,16 @@ export default function RootLayout() {
   }
 
   return (
-    <ToastProvider>
+    <ToastProvider 
+    placement="center"
+    duration={1500}
+     >
       <UserProvider>
         <RootLayoutNav />
       </UserProvider>
     </ToastProvider>
   );
 }
-
 function RootLayoutNav() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
@@ -58,6 +61,7 @@ function RootLayoutNav() {
           <Stack.Screen name="(routes)/dashboard/index" />
           <Stack.Screen name="(routes)/scanner/index" />
           <Stack.Screen name="(routes)/editprofile/index" />
+          <Stack.Screen name="(routes)/camera/index" />
         </Stack>
       )}
     </>

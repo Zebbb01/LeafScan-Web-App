@@ -20,6 +20,15 @@ nav ul li a:hover {
 .logo {
     width: 100px;
 }
+.profile_icon {
+  width: 30px; /* Increased size for better visibility */
+  height: 30px; /* Ensure it's a square */
+  border-radius: 50%; /* Keep it circular */  
+  object-fit: cover; /* Ensures the image fills the circle */
+  border: 0.5px solid white; /* Optional: add a border for better visibility */
+  background-color: #f1f1f1; /* Optional: fallback background */
+}
+
 nav ul li{
     display: inline-block;
     list-style: none;

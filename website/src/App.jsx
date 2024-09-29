@@ -2,6 +2,7 @@ import React, { Suspense, useState, useEffect } from 'react';
 import { Routes, Route, BrowserRouter, useLocation } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import video from './assets/Cacao farming (360p).mp4'; // Import the video
 
 // Dynamically import components
 const Navbar = React.lazy(() => import('./components/Navbar/Navbar'));
@@ -17,7 +18,6 @@ const Login = React.lazy(() => import('./components/Login/Login'));
 const UpdateProfile = React.lazy(() => import('./components/UpdateProfile/UpdateProfile'));
 const Scan = React.lazy(() => import('./components/Scan/Scan'));
 const Forecast = React.lazy(() => import('./components/Forecast/ForecastLine'));
-// const SatelliteTimeSeries = React.lazy(() => import('./components/Forecast/SatelliteTimeSeries/SatelliteTimeSeries'));
 
 const App = () => {
   const [user, setUser] = useState(null);
@@ -46,6 +46,13 @@ const App = () => {
 
   return (
     <>
+      {/* Video Background */}
+      <video autoPlay muted loop className="video-background">
+        <source src={video} type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
+      <div className="overlay"></div>
+      
       {location.pathname !== '/' && location.pathname !== '/signup' && !location.pathname.startsWith('/update/') && (
         <Suspense fallback={<div>Loading Navbar...</div>}>
           <Navbar user={user} onLogout={handleLogout} />
@@ -80,9 +87,6 @@ const App = () => {
                 <Suspense fallback={<div>Loading Forecast...</div>}>
                   <Forecast />
                 </Suspense>
-                {/* <Suspense fallback={<div>Loading SatelliteTimeSeries...</div>}>
-                  <SatelliteTimeSeries />
-                </Suspense> */}
                 <Suspense fallback={<div>Loading About...</div>}>
                   <About setPlayState={setPlayState} />
                 </Suspense>
